@@ -15,6 +15,7 @@ public:
     explicit Parser(Lexer& lex);
     std::unique_ptr<ASTNode> parseFunction();
     std::unique_ptr<ASTNode> parseClass();
+    std::unique_ptr<ASTNode> parseIfStatement();
 };
 
-#endif // PARSER_HPP
+#endif

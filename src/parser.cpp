@@ -1,5 +1,4 @@
 #include "parser.hpp"
-#include <stdexcept>
 
 Parser::Parser(Lexer& lex) : lexer(lex) {
     advance();
@@ -26,9 +25,7 @@ std::unique_ptr<ASTNode> Parser::parseFunction() {
     while (currentToken.type == IDENTIFIER) {
         params.push_back(currentToken.value);
         advance();
-        if (currentToken.value == ",") {
-            advance();
-        }
+        if (currentToken.value == ",") advance();
     }
 
     expect(SYMBOL); // ')'

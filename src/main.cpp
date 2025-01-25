@@ -10,9 +10,23 @@ bool hasCorrectExtension(const std::string& filename, const std::string& extensi
     return extPos != std::string::npos && filename.substr(extPos) == extension;
 }
 
+// Function to print tokens (for debugging)
+void printTokens(const std::string& sourceCode) {
+    Lexer lexer(sourceCode);
+    std::cout << "Tokens:\n";
+    try {
+        Token token;
+        while ((token = lexer.getNextToken()).type != END_OF_FILE) {
+            std::cout << "Type: " << token.type << ", Value: " << token.value << "\n";
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Lexer error: " << e.what() << "\n";
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        std::cerr << "Usage: ./nova_compiler <file.nol>\n";
+        std::cerr << "Usage: ./novalingua <file.nol>\n";
         return 1;
     }
 
@@ -33,19 +47,23 @@ int main(int argc, char* argv[]) {
                            std::istreambuf_iterator<char>());
     file.close();
 
+    // Debugging: Print tokens
+    std::cout << "\n--- Tokenization ---\n";
+    printTokens(sourceCode);
+
     // Proceed with Lexer and Parser
-    Lexer lexer(sourceCode);  // Assuming Lexer is properly defined in lexer.hpp
-    Parser parser(lexer);     // Assuming Parser is properly defined in parser.hpp
+    Lexer lexer(sourceCode);
+    Parser parser(lexer);
 
     try {
-        std::cout << "Parsing " << filename << "...\n";
-        auto ast = parser.parseClass();  // Assuming parseClass() returns a pointer to an AST
+        std::cout << "\n--- Parsing ---\n";
+        auto ast = parser.parseClass(); // Assuming main file defines a class
         std::cout << "Parsed successfully!\n";
 
-        std::cout << "Abstract Syntax Tree (AST):\n";
-        ast->print();  // Ensure AST class has a print method
+        std::cout << "\n--- Abstract Syntax Tree (AST) ---\n";
+        ast->print();
     } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Error during parsing: " << e.what() << "\n";
         return 1;
     }
 

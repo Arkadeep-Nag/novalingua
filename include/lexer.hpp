@@ -1,4 +1,3 @@
-// lexer.hpp
 #ifndef LEXER_HPP
 #define LEXER_HPP
 
@@ -13,6 +12,7 @@ enum TokenType {
     NUMBER,
     STRING,
     SYMBOL,
+    COMMENT,
     END_OF_FILE
 };
 
@@ -29,6 +29,9 @@ public:
 private:
     std::string source;
     size_t index;
+
+    void skipWhitespace();
+    void skipComments();
 };
 
 #endif

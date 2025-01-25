@@ -1,0 +1,18 @@
+class TestClass {
+    func greet(name) {
+        print("Hello, " + name + "!");
+    }
+
+    func calculate(a, b) {
+        let result = a * b + 42;
+        return result;
+    }
+}
+
+func main() {
+    let x = 10;
+    let y = 5;
+    let obj = TestClass();
+    obj.greet("Nova Lingua");
+    print("Result: " + obj.calculate(x, y));
+}
