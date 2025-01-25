@@ -1,18 +1,69 @@
-class TestClass {
-    func greet(name) {
-        print("Hello, " + name + "!");
+// Define a base class for a bank account
+class BankAccount {
+    parent = Object; // No parent class, so inheriting from Object
+
+    // Constructor
+    func init(accountHolder, balance) {
+        self.accountHolder = accountHolder;
+        self.balance = balance;
     }
 
-    func calculate(a, b) {
-        let result = a * b + 42;
-        return result;
+    // Deposit method
+    func deposit(amount) {
+        self.balance = self.balance + amount;
+        print("Deposited: " + amount + ", New Balance: " + self.balance);
+    }
+
+    // Withdraw method
+    func withdraw(amount) {
+        if (self.balance >= amount) {
+            self.balance = self.balance - amount;
+            print("Withdrawn: " + amount + ", New Balance: " + self.balance);
+        } else {
+            print("Insufficient balance!");
+        }
+    }
+
+    // Display account details
+    func displayAccountDetails() {
+        print("Account Holder: " + self.accountHolder);
+        print("Balance: " + self.balance);
     }
 }
 
+// Define a subclass for a savings account
+class SavingsAccount extends BankAccount {
+    parent = BankAccount;
+
+    // Constructor
+    func init(accountHolder, balance, interestRate) {
+        super.init(accountHolder, balance); // Call parent constructor
+        self.interestRate = interestRate;
+    }
+
+    // Add interest method
+    func addInterest() {
+        let interest = self.balance * (self.interestRate / 100);
+        self.balance = self.balance + interest;
+        print("Interest Added: " + interest + ", New Balance: " + self.balance);
+    }
+}
+
+// Main program starts here
 func main() {
-    let x = 10;
-    let y = 5;
-    let obj = TestClass();
-    obj.greet("Nova Lingua");
-    print("Result: " + obj.calculate(x, y));
+    // Create a basic bank account
+    let myAccount = BankAccount("John Doe", 1000);
+    myAccount.displayAccountDetails();
+    myAccount.deposit(500);
+    myAccount.withdraw(300);
+    myAccount.withdraw(1500);
+
+    // Create a savings account
+    let mySavings = SavingsAccount("Jane Smith", 2000, 5); // 5% interest rate
+    mySavings.displayAccountDetails();
+    mySavings.addInterest();
+    mySavings.withdraw(500);
 }
+
+// Call the main function
+main();
